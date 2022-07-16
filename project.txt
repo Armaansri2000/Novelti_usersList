@@ -1,0 +1,401 @@
+Address.java:
+
+package dbconnect;
+
+import javax.swing.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+public class Main {
+    public static void main(String[] args) throws SQLException {
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/busres", "postgres", "admin");
+            Statement statement = connection.createStatement();
+            // statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            connection.close();
+        }
+    }
+}
+
+Bus.java:
+
+package busproject;
+
+public class Bus {
+    private String busNumber;
+    private String source;
+    private String destination;
+    private String operatorName;
+    private int fare;
+
+    @Override
+    public String toString() {
+        return "Bus{" +
+                "busNumber='" + busNumber + '\'' +
+                ", source='" + source + '\'' +
+                ", destination='" + destination + '\'' +
+                ", operatorName='" + operatorName + '\'' +
+                ", fare=" + fare +
+                '}';
+    }
+
+    public Bus(){
+
+    }
+
+    public Bus(String busNumber, String source, String destination, String operatorName, int fare) {
+        this.busNumber = busNumber;
+        this.source = source;
+        this.destination = destination;
+        this.operatorName = operatorName;
+        this.fare = fare;
+    }
+
+
+    public String getBusNumber() {
+        return busNumber;
+    }
+
+    public void setBusNumber(String busNumber) {
+        this.busNumber = busNumber;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
+    }
+
+    public int getFare() {
+        return fare;
+    }
+
+    public void setFare(int fare) {
+        this.fare = fare;
+    }
+}
+
+
+Busoperation.java:
+
+package busproject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class BusOperation {
+
+    static List<Bus> busList = new ArrayList<>();
+    public void createBus(String busNumber, String source, String destination, String operatorName, int fare){
+        Bus bus = new Bus(busNumber, source, destination, operatorName, fare);
+        busList.add(bus);
+    }
+
+    public List<Bus> searchBus(String source, String destination){
+        List<Bus> resultList = new ArrayList<>();
+        for (Bus bus: busList){
+            if(source.equals(bus.getSource()) && destination.equals(bus.getDestination())){
+                resultList.add(bus);
+            }
+        }
+        return resultList;
+    }
+}
+
+
+Contact.java
+
+package busproject;
+
+public class Contact {
+    private String name;
+    private long phone;
+    private String email;
+
+    public Contact(){
+
+    }
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + name + '\'' +
+                ", phone=" + phone +
+                ", email='" + email + '\'' +
+                '}';
+    }
+
+    public Contact(String name, long phone, String email) {
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public long getPhone() {
+        return phone;
+    }
+
+    public void setPhone(long phone) {
+        this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}
+
+
+LoginSignup.java:
+
+package busproject;
+import java.util.ArrayList;
+import java.util.List;
+
+public class LoginSignup {
+
+    UserOperation userOperation = new UserOperation();
+    // List<User> userList = new ArrayList<>();
+    public String signup(String name, long phone, String email, String street, String city, String state, String password){
+        if(userOperation.verifyEmail(email)){
+            return "Email already taken Signup unsuccessful";
+        }
+        Contact contact = new Contact(name, phone, email);
+        Address address = new Address(street, city, state);
+        User user = new User(contact, address, password);
+        userOperation.addUser(user);
+        return "signup successful";
+    }
+
+    public String login(String email, String password){
+        if(!userOperation.verifyEmail(email)){
+            return "Incorrect Email";
+        }
+        if(!userOperation.verifyPassword(password)) {
+            return "Incorrect Password";
+        }
+        return "Login Successful";
+    }
+
+}
+
+
+Main:
+
+package busproject;
+import java.util.List;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+
+//        System.out.println("Welcome to Bus reservation system");
+//        System.out.println("1. Sign up");
+//        System.out.println("2. Login");
+//        System.out.println("3. Reset Password");
+//        System.out.println("Enter your input");
+//        Scanner sc = new Scanner(System.in);
+//        int input = sc.nextInt();
+        LoginSignup loginSignup = new LoginSignup();
+//
+//        switch (input){
+//            case 1:
+//                System.out.print("Name -> ");
+//                String nm = sc.nextLine();
+//                System.out.print("Phone -> ");
+//                int ph = sc.nextInt();
+//                System.out.println("Email -> ");
+//                String eml = sc.nextLine();
+//                System.out.println("Street -> ");
+//                String strt = sc.nextLine();
+//                System.out.println("City -> ");
+//                String cty = sc.nextLine();
+//                System.out.println("State -> ");
+//                String ste = sc.nextLine();
+//                System.out.println("Password -> ");
+//                String pass = sc.nextLine();
+//                System.out.println(loginSignup.signup(nm, ph, eml, strt, cty, ste, pass));
+//                break;
+//
+//            case 2:
+//                System.out.println("Name -> ");
+//                String email1 = sc.nextLine();
+//                System.out.println("Password -> ");
+//                String pwd = sc.nextLine();
+//                System.out.println(loginSignup.login(email1, pwd));
+//                break;
+//
+//            default:
+//                System.out.println("not valid");
+//        }
+
+
+//         System.out.println(loginSignup.signup("Indranil", 75850394, "indra@gmail.com", "Parulia", "Durgapur", "WB", "hello"));
+//         System.out.println(loginSignup.signup("Aman", 9898999, "aman@gmail.com", "bansia", "Durgapur", "UP", "hew349"));
+//         System.out.println(loginSignup.signup("Indranil", 75850394, "indra@gmail.com", "Parulia", "Durgapur", "WB", "hello"));
+//         System.out.println(loginSignup.login("indra@gmail.com", "hello"));
+//
+//         UserOperation userOperation = new UserOperation();
+//         System.out.println(userOperation.findUser("aman@gmail.com"));
+//         userOperation.updateUserName("aman@gmail.com", "Deep");
+//         System.out.println(userOperation.findUser("aman@gmail.com"));
+//         System.out.println();
+
+
+        BusOperation busOperation = new BusOperation();
+        busOperation.createBus("100a", "Phagwara", "Delhi", "Ajay", 890);
+        busOperation.createBus("101a", "Kolkata", "Durgapur", "Ravi", 250);
+        busOperation.createBus("102b", "Jalandhar", "LPU", "Bhusan", 20);
+        busOperation.createBus("100n", "Phagwara", "Delhi", "Raman", 760);
+        busOperation.createBus("200a", "Phagwara", "Delhi", "Asis", 540);
+
+        List<Bus> searchResult = busOperation.searchBus("Phagwara", "Delhi");
+
+        for (Bus bus: searchResult){
+            System.out.println(bus);
+        }
+
+    }
+}
+
+
+User.java:
+
+package busproject;
+public class User {
+     private Contact contact;
+     private Address address;
+     private String password;
+
+     public User(){
+
+     }
+
+    public User(Contact contact, Address address, String password) {
+        this.contact = contact;
+        this.address = address;
+        this.password = password;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "contact=" + contact +
+                ", address=" + address +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+}
+
+
+UserOperation.java:
+
+package busproject;
+import java.util.ArrayList;
+import java.util.List;
+
+public class UserOperation {
+
+    static List<User> userList = new ArrayList<>();
+    public void addUser(User user){
+        userList.add(user);
+    }
+
+
+    public boolean verifyEmail(String email){
+        for (User user : userList){
+            if(email.equals(user.getContact().getEmail())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean verifyPassword(String password){
+        for (User user : userList){
+            if(password.equals(user.getPassword())){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void updateUserName(String email, String newName){
+        for (User user: userList){
+            if(email.equals(user.getContact().getEmail())){
+                user.setContact(new Contact(newName, user.getContact().getPhone(), user.getContact().getEmail()));
+            }
+        }
+    }
+
+    public User findUser(String email) {
+        for (User user : userList) {
+            if (email.equals(user.getContact().getEmail())){
+                return user;
+            }
+        }
+        return null;
+    }
+}
+
