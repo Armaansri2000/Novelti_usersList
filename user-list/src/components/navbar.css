@@ -1,0 +1,15 @@
+.navbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  background-color: black;
+  padding: 5px 0px;
+  position: sticky;
+  width: 100%;
+  top: 0%;
+}
+.navbarContainer > a {
+  text-decoration: none;
+  color: white;
+  color: greenyellow;
+}

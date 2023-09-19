@@ -1,0 +1,79 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  background: url("./bg2.jpg") no-repeat center center/cover;
+  opacity: 0.79;
+  z-index: -1;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+}
+
+.message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  height: 60vh;
+}
+.message > h2 {
+  font-size: 3rem;
+  font-weight: bolder;
+  color: greenyellow;
+  background-color: black;
+  padding: 1rem;
+}
+.message > a {
+  font-size: 4rem;
+  font-weight: bolder;
+  /* background: none; */
+  color: greenyellow;
+  background-color: black;
+  text-decoration: none;
+  padding: 0.4rem 3rem;
+  border-radius: 45%;
+}
+.message>a:hover{
+  background-color: greenyellow;
+  color: black;
+}

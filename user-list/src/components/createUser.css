@@ -1,0 +1,40 @@
+.formContainer {
+  border: 2px solid red;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+.inputContainer {
+  /* border: 2px solid black; */
+  width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 7px;
+  background-color: rgba(128, 128, 128, 0.162);
+  padding: 5px;
+}
+.inputContainer > input,
+.input {
+  width: 100%;
+  font-size: large;
+  color: black;  
+}
+.inputContainer > label {
+  font-size: larger;
+  font-weight: bolder;
+}
+.formContainer > button {
+  margin-top: 1rem;
+  margin-bottom: 3rem;
+  padding: 0.4rem 2rem;
+  font-size: 1rem;
+  font-weight: bolder;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  color: greenyellow;
+}
